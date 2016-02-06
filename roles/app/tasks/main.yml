@@ -1,0 +1,14 @@
+---
+# file: roles/app/tasks/main.yml
+# usage:
+# ansible-playbook app.yaml -e TAG=release_123
+
+  - include: current.yml tags=current
+  - include: deploy.yml tags=deploy
+  - include: connections.yml tags=connections
+  - include: images.yml tags=images
+  - include: init.yml tags=init
+  - include: unit_test.yml tags=unit_test
+  - include: stoplisteners.yml tags=stoplisteners
+  - include: checklisteners.yml tags=checklisteners
+  - include: startlisteners.yml tags=startlisteners

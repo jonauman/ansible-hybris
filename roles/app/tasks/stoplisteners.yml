@@ -1,0 +1,6 @@
+---
+  - name: stop jms listeners 
+    shell: curl localhost:9001/warehouseintegration/jms/stopListeners
+    register: stoplisteners
+
+  - debug: msg="{{ stoplisteners.stdout }} stoplisteners"

@@ -1,0 +1,9 @@
+---
+# file: sta-web.yml
+- hosts: web
+  roles:
+    - web
+
+  vars:
+    myenv: sta
+    

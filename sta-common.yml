@@ -1,0 +1,5 @@
+---
+# file: sta-web.yml
+- hosts: all 
+  roles:
+    - common 

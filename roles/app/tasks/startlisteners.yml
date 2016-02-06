@@ -1,0 +1,6 @@
+---
+  - name: start jms listeners 
+    shell: curl localhost:9001/warehouseintegration/jms/startListeners
+    register: startlisteners
+
+  - debug: msg="{{ startlisteners.stdout }} startlisteners"

@@ -1,0 +1,17 @@
+---
+# file: roles/web/tasks/main.yml
+#  - name: (push) sync git repo locally
+#    local_action: command git pull chdir=roles/web/files/{{ myenv }}
+#    delegate_to: 127.0.0.1
+  - include: fetch.yml connection=local
+
+  - name: (push) chown admin
+    command: chown -R admin:admin /etc/apache2
+    sudo: yes
+
+  - name: (push) sync /etc/apache2
+    synchronize: src=roles/web/files/{{ myenv }}/ dest=/etc/apache2 delete=yes
+
+  - name: (push) apachectl configtest
+    command: apachectl configtest
+    sudo: yes

@@ -1,0 +1,51 @@
+---
+# file: roles/app/tasks/main.yml
+# usage:
+# ansible-playbook app.yaml -e "SOURCE=TAG TAG=release_123"
+
+  ### Stop Hybris ###
+  - name: (current) stop hybris
+    command: /etc/init.d/hybris stop
+    tags:
+      - hybris-stop
+
+  ### git fetch latest ###
+  - name: (current) git fetch
+    command: git fetch chdir=/opt/hybris
+
+  - name: (current) git fetch tags
+    command: git fetch --tags chdir=/opt/hybris
+
+  ### if TAG, then: ###
+  - include: tag.yml
+    when: SOURCE == "TAG" and TAG is defined
+
+  ### if BRANCH, then: ###
+  - include: branch.yml
+    when: SOURCE == "BRANCH" and BRANCH is defined
+
+  ### git pull ###
+  - name: (current) git pull
+    command: git pull chdir=/opt/hybris
+
+  ### run puppet to get config changes to local.properties ###
+  - name: (current) puppet run
+    # puppet can not use '--detailed-exitcodes' since the exit codes will cause ansible to fail
+    raw: sudo puppet agent -v --onetime --verbose --ignorecache --no-daemonize --no-usecacheonfailure --no-splay --show_diff
+    sudo: yes
+    sudo_user: admin
+
+  - name: (current) ant setup
+    raw: cd /opt/hybris/bin/platform && source ./setantenv.sh
+
+  - name: (current) ant clean all
+    command: "{{ ANT_BIN }} clean all chdir=/opt/hybris/bin/platform"
+
+  - name: (current) start hybris
+    command: /etc/init.d/hybris start
+    tags:
+      - hybris-start
+
+  ### sync _ui folder from backend server after ant build ###
+  - include: images.yml
+    when: facter_env == "prd" or facter_env == "sta"

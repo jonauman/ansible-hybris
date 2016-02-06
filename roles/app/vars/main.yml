@@ -1,0 +1,9 @@
+---
+# file: roles/app/vars/main.yml
+sudo_user: hybris
+sudo: yes
+PLATFORM_HOME: /opt/hybris/bin/platform
+ANT_OPTS: -Xmx200m
+ANT_HOME: $PLATFORM_HOME/apache-ant-1.8.2
+ANT_BIN: /opt/hybris/bin/platform/apache-ant-1.8.2/bin/ant
+PATH: $ANT_HOME/bin:$PATH

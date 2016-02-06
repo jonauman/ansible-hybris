@@ -1,0 +1,14 @@
+---
+  - name: (branch) check if branch_exist
+    # need grep -o to trim white space from variable
+    shell: git branch | grep -o {{ BRANCH }}_local chdir=/opt/hybris
+    register: branch_exist
+    ignore_errors: True
+
+  - name: (branch) git checkout new branch
+    command: git checkout -b {{ BRANCH }}_local origin/{{ BRANCH }} chdir=/opt/hybris
+    when: branch_exist is defined and branch_exist.stdout != "{{ BRANCH }}_local"
+
+  - name: (branch) git checkout existing branch
+    command: git checkout {{ BRANCH }}_local chdir=/opt/hybris
+    when: branch_exist is defined and branch_exist.stdout == "{{ BRANCH }}_local"

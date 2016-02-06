@@ -1,0 +1,10 @@
+---
+# file: roles/web/tasks/restart.yml
+
+  - name: (restart) apachectl configtest
+    command: /usr/sbin/apachectl configtest 
+    sudo: yes
+
+  - name: (restart) restart apache
+    command: /usr/sbin/apachectl restart
+    sudo: yes

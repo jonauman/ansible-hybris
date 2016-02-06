@@ -1,0 +1,13 @@
+---
+  ### if TAG, then: ###
+  - name: (current) check if tag_exist
+    shell: git branch | grep -o {{ TAG }}_local chdir=/opt/hybris
+    register: tag_exist
+
+  - name: (current) git checkout new tag
+    command: git checkout -b {{ TAG }}_local tags/{{ TAG }} chdir=/opt/hybris
+    when: tag_exist is defined and tag_exist.stdout != "{{ TAG }}_local"
+
+  - name: (current) git checkout existing tag
+    command: git checkout {{ TAG }}_local chdir=/opt/hybris
+    when: tag_exist is defined and tag_exist.stdout == "{{ TAG }}_local"

@@ -1,0 +1,9 @@
+---
+# file: roles/app/tasks/unit_test.yml
+  - name: unit test 
+    shell: export ANT_OPTS='-Xms256m -Xmx1536m -XX:PermSize=1024m -XX:MaxPermSize=2048m' && ant alltests -Dtestclasses.extensions=medicanimalcockpits,medicanimalcore,medicanimalfacades,medicanimalinitialdata,medicanimalstorefront,pharmacy,feedmanager,bv,warehouseintegration,medicanimalfulfilment chdir=/opt/hybris/bin/platform
+
+  - name: copy junit logs to jenkins
+    synchronize: mode=pull src=/opt/hybris/log/junit/ dest=/var/lib/jenkins/jobs/CI\ Unit\ Test/workspace/junit/
+    tags:
+      - rsync

@@ -1,0 +1,6 @@
+---
+  - name: check app server connections 
+    shell: netstat -an|grep 9001|wc -l
+    register: connections
+
+  - debug: msg="{{ connections.stdout }} connections"

@@ -1,0 +1,9 @@
+---
+# file: roles/app/tasks/main.yml
+# usage:
+# ansible-playbook app.yaml -e TAG=release_123
+
+  - include: current.yml tags=current
+  - include: init.yml tags=init
+    when: facter_env != 'prd' or facter_env!= 'sta'
+  - include: unit_test.yml tags=unit_test

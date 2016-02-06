@@ -1,0 +1,22 @@
+---
+
+  # BRANCH
+  - name: (debug) check if branch_exist
+    shell: git branch | grep "{{ BRANCH }}_local" chdir=/opt/hybris
+    register: branch_exist
+    when: BRANCH is defined
+    ignore_errors: True
+    tags: debug
+
+  - debug: msg="branch_exist = {{ branch_exist.stdout }}"
+    tags: debug
+
+  - name: (debug) if branch exist
+    debug: msg="Yes branch exists"
+    when: {{ branch_exist.stdout }} == "{{ BRANCH }}_local"
+    tags: debug
+
+  - name: (debug) if branch does not exist
+    debug: msg="No, branch does not exist"
+    when: {{ branch_exist.stdout }} != "{{ BRANCH }}_local"  
+    tags: debug

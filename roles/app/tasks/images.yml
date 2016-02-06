@@ -1,0 +1,13 @@
+---
+  ### sync _ui folder from backend server after ant build ###
+  - name: (images) sync _ui with S3 staging
+    command: aws s3 sync /opt/hybris/bin/custom/medicanimal/medicanimalstorefront/web/webroot/_ui s3://staging.staticmedia.net/_ui/
+    when: facter_env == "sta" and facter_hostname == "aws-sta-back-app11"
+    tags:
+      - images
+
+  - name: (images) sync _ui with S3 production
+    command: aws s3 sync /opt/hybris/bin/custom/medicanimal/medicanimalstorefront/web/webroot/_ui s3://staging.staticmedia.net/_ui/
+    when: facter_env == "prd"  and facter_hostname == "aws-prd-back-app11"
+    tags:
+      - images

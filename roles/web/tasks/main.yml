@@ -1,0 +1,4 @@
+---
+# file: roles/web/tasks/main.yml
+  - include: push.yml tags=push
+  - include: restart.yml tags=restart

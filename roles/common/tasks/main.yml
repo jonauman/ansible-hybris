@@ -1,0 +1,7 @@
+---
+# file: roles/common/tasks/main.yml
+- name: Add keys to admin user
+  authorized_key: user=admin
+                  key="{{ item }}"
+  with_file:
+    - jon.auman.ssh_key.pub

@@ -1,0 +1,6 @@
+---
+  - name: check jms listeners 
+    shell: curl localhost:9001/warehouseintegration/jms/isRunning
+    register: checklisteners
+
+  - debug: msg="{{ checklisteners.stdout }} checklisteners"

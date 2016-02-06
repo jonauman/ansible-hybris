@@ -1,0 +1,7 @@
+---
+# file: app.yml
+- hosts: app 
+  roles:
+    - app
+#  vars_prompt:
+#    TAG: "What is the release tag?"

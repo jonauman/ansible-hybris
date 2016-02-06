@@ -1,0 +1,7 @@
+---
+# file: roles/web/tasks/main.yml
+
+  - name: (push) sync git repo locally
+    local_action: command git pull chdir=roles/web/files/{{ myenv }}
+    when: facter_hostname == "aws-prd-ecom-web01"
+    ignore_errors: yes 

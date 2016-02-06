@@ -1,0 +1,5 @@
+---
+# file: roles/app/tasks/init.yml
+  - name: initialize database
+    command: ant initialize -Dtenant=master chdir=/opt/hybris/bin/platform
+    when: facter_env != "prd" 
